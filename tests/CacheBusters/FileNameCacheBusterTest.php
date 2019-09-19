@@ -40,7 +40,7 @@ class FileNameCacheBusterTest extends TestCase
 
     public function testBasePath()
     {
-        $fileNameCacheBuster = new FileNameCacheBuster($this->publicPath(), 'base-path');
+        $fileNameCacheBuster = new FileNameCacheBuster($this->publicPath(), null, 'base-path');
 
         $GLOBALS['filemtime_return'] = '1234';
 
@@ -67,7 +67,7 @@ class FileNameCacheBusterTest extends TestCase
 
     public function testBasePathWithLeadingSlash()
     {
-        $fileNameCacheBuster = new FileNameCacheBuster($this->publicPath(), '/base');
+        $fileNameCacheBuster = new FileNameCacheBuster($this->publicPath(), null, '/base');
 
         $GLOBALS['filemtime_return'] = '1234';
 
@@ -100,7 +100,7 @@ class FileNameCacheBusterTest extends TestCase
         /** @var HashGeneratorInterface $hashGenerator */
         $hashGenerator = $hashGeneratorProphecy->reveal();
 
-        $fileNameCacheBuster = new FileNameCacheBuster($this->publicPath(), '', $hashGenerator);
+        $fileNameCacheBuster = new FileNameCacheBuster($this->publicPath(), $hashGenerator);
         $this->assertEquals('/image.1234.jpg', $fileNameCacheBuster->bust('image.jpg'));
     }
 
@@ -112,7 +112,7 @@ class FileNameCacheBusterTest extends TestCase
         /** @var HashGeneratorInterface $hashGenerator */
         $hashGenerator = $hashGeneratorProphecy->reveal();
 
-        $fileNameCacheBuster = new FileNameCacheBuster($this->publicPath(), '', $hashGenerator);
+        $fileNameCacheBuster = new FileNameCacheBuster($this->publicPath(), $hashGenerator);
         $this->assertEquals('/image.jpg', $fileNameCacheBuster->bust('image.jpg'));
     }
 }

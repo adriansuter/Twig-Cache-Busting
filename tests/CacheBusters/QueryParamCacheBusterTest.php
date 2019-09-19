@@ -40,7 +40,7 @@ class QueryParamCacheBusterTest extends TestCase
 
     public function testBasePath()
     {
-        $queryParamCacheBuster = new QueryParamCacheBuster($this->publicPath(), 'base-path');
+        $queryParamCacheBuster = new QueryParamCacheBuster($this->publicPath(), null, 'base-path');
 
         $GLOBALS['filemtime_return'] = '1234';
 
@@ -67,7 +67,7 @@ class QueryParamCacheBusterTest extends TestCase
 
     public function testBasePathWithLeadingSlash()
     {
-        $queryParamCacheBuster = new QueryParamCacheBuster($this->publicPath(), '/base');
+        $queryParamCacheBuster = new QueryParamCacheBuster($this->publicPath(), null, '/base');
 
         $GLOBALS['filemtime_return'] = '1234';
 
@@ -97,9 +97,10 @@ class QueryParamCacheBusterTest extends TestCase
         $hashGeneratorProphecy = $this->prophesize(HashGeneratorInterface::class);
         $hashGeneratorProphecy->generate(Argument::any())->willReturn('1234');
 
+        /** @var HashGeneratorInterface $hashGenerator */
         $hashGenerator = $hashGeneratorProphecy->reveal();
 
-        $queryParamCacheBuster = new QueryParamCacheBuster($this->publicPath(), '', $hashGenerator);
+        $queryParamCacheBuster = new QueryParamCacheBuster($this->publicPath(), $hashGenerator);
         $this->assertEquals('/image.jpg?h=1234', $queryParamCacheBuster->bust('image.jpg'));
     }
 
@@ -108,9 +109,10 @@ class QueryParamCacheBusterTest extends TestCase
         $hashGeneratorProphecy = $this->prophesize(HashGeneratorInterface::class);
         $hashGeneratorProphecy->generate(Argument::any())->willReturn(null);
 
+        /** @var HashGeneratorInterface $hashGenerator */
         $hashGenerator = $hashGeneratorProphecy->reveal();
 
-        $queryParamCacheBuster = new QueryParamCacheBuster($this->publicPath(), '', $hashGenerator);
+        $queryParamCacheBuster = new QueryParamCacheBuster($this->publicPath(), $hashGenerator);
         $this->assertEquals('/image.jpg', $queryParamCacheBuster->bust('image.jpg'));
     }
 }

@@ -70,7 +70,7 @@ class IntegrationTest extends TestCase
             ///
             [
                 'File Name Cache Buster - Default',
-                new FileNameCacheBuster($this->publicPath(), ''),
+                new FileNameCacheBuster($this->publicPath()),
                 'cache_busting',
                 [
                     self::KEY_ROOT_FILE => '/bar.1234.js',
@@ -84,7 +84,6 @@ class IntegrationTest extends TestCase
                 'File Name Cache Buster - File Modification Time Hash',
                 new FileNameCacheBuster(
                     $this->publicPath(),
-                    '',
                     new FileModificationTimeHashGenerator()
                 ),
                 'cache_busting',
@@ -100,7 +99,6 @@ class IntegrationTest extends TestCase
                 'File Name Cache Buster - File MD5 Hash',
                 new FileNameCacheBuster(
                     $this->publicPath(),
-                    '',
                     new FileMD5HashGenerator()
                 )
                 ,
@@ -117,7 +115,6 @@ class IntegrationTest extends TestCase
                 'File Name Cache Buster - File SHA1 Hash',
                 new FileNameCacheBuster(
                     $this->publicPath(),
-                    '',
                     new FileSHA1HashGenerator()
                 )
                 ,
@@ -152,7 +149,6 @@ class IntegrationTest extends TestCase
                 'Query Param Cache Buster - File Modification Time Hash',
                 new QueryParamCacheBuster(
                     $this->publicPath(),
-                    '',
                     new FileModificationTimeHashGenerator()
                 )
                 ,
@@ -169,7 +165,6 @@ class IntegrationTest extends TestCase
                 'Query Param Cache Buster - File MD5 Hash',
                 new QueryParamCacheBuster(
                     $this->publicPath(),
-                    '',
                     new FileMD5HashGenerator()
                 )
                 ,
@@ -186,7 +181,6 @@ class IntegrationTest extends TestCase
                 'Query Param Cache Buster - File SHA1 Hash',
                 new QueryParamCacheBuster(
                     $this->publicPath(),
-                    '',
                     new FileSHA1HashGenerator()
                 )
                 ,
