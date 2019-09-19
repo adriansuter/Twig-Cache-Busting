@@ -165,6 +165,19 @@ $twig->addExtension(new CacheBustingTwigExtension(
 ```
 
 
+## Custom Twig Tag
+
+If you want to change the twig tag `cache_busting` into something else, you can do that simply
+by setting the second argument of the constructor of `\AdrianSuter\TwigCacheBusting\CacheBustingTokenParser`.
+
+```php
+new CacheBustingTokenParser(
+    new FileNameCacheBuster('/home/htdocs/public'),
+    'cb'
+)
+```
+
+
 ## Contribution
 
 Is much welcomed.
