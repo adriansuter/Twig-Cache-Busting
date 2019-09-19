@@ -16,32 +16,32 @@ class QueryParamCacheBuster implements CacheBusterInterface
     private $endPointDirectory;
 
     /**
-     * @var string
-     */
-    private $basePath;
-
-    /**
      * @var HashGeneratorInterface
      */
     private $hashGenerator;
 
     /**
-     * @param string $endPointDirectory
-     * @param string $basePath
+     * @var string
+     */
+    private $basePath;
+
+    /**
+     * @param string                      $endPointDirectory
      * @param HashGeneratorInterface|null $hashGenerator
+     * @param string                      $basePath
      */
     public function __construct(
         string $endPointDirectory,
-        string $basePath = '',
-        ?HashGeneratorInterface $hashGenerator = null
+        ?HashGeneratorInterface $hashGenerator = null,
+        string $basePath = ''
     ) {
         if ($hashGenerator === null) {
             $hashGenerator = new FileModificationTimeHashGenerator();
         }
 
         $this->endPointDirectory = $endPointDirectory;
-        $this->basePath = $basePath;
         $this->hashGenerator = $hashGenerator;
+        $this->basePath = $basePath;
     }
 
     /**
