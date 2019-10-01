@@ -20,16 +20,26 @@ class CacheBustingTokenParser extends AbstractTokenParser
     /**
      * @var string
      */
+    private $basePath;
+
+    /**
+     * @var string
+     */
     private $twigTag;
 
     /**
      * @param CacheBusterInterface $cacheBuster
-     * @param string $twigTag
+     * @param string|null $basePath
+     * @param string|null $twigTag
      */
-    public function __construct(CacheBusterInterface $cacheBuster, string $twigTag = 'cache_busting')
-    {
+    public function __construct(
+        CacheBusterInterface $cacheBuster,
+        ?string $basePath = null,
+        ?string $twigTag = null
+    ) {
         $this->cacheBuster = $cacheBuster;
-        $this->twigTag = $twigTag;
+        $this->basePath = ($basePath === null ? '' : $basePath);
+        $this->twigTag = ($twigTag === null ? 'cache_busting' : $twigTag);
     }
 
     /**
@@ -42,7 +52,24 @@ class CacheBustingTokenParser extends AbstractTokenParser
         $path = $stream->expect(Token::STRING_TYPE)->getValue();
         $stream->expect(Token::BLOCK_END_TYPE);
 
-        return new TextNode($this->cacheBuster->bust($path), $token->getLine());
+        return new TextNode($this->buildPath($path), $token->getLine());
+    }
+
+    /**
+     * @param string $path
+     * @return string
+     */
+    private function buildPath(string $path): string
+    {
+        if ($this->basePath === '') {
+            $basePath = '';
+        } elseif ($this->basePath[0] !== '/') {
+            $basePath = '/'.$this->basePath;
+        } else {
+            $basePath = $this->basePath;
+        }
+
+        return $basePath.'/'.$this->cacheBuster->bust($path);
     }
 
     /**
