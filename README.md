@@ -5,7 +5,7 @@
 [![Total Downloads](https://poser.pugx.org/adriansuter/twig-cache-busting/downloads)](https://packagist.org/packages/adriansuter/twig-cache-busting)
 [![License](https://poser.pugx.org/adriansuter/twig-cache-busting/license)](https://packagist.org/packages/adriansuter/twig-cache-busting)
 
-Twig Cache Busting is an add-on for [Twig](https://twig.symfony.com/) to support cache busting on template compilation.
+Twig Cache Busting is an add-on for [Twig](https://twig.symfony.com/) to support cache busting on **template compilation**.
 
 
 ## Installation
@@ -18,13 +18,16 @@ $ composer require adriansuter/twig-cache-busting
 ## Description
 
 This add-on would extend Twig by a cache busting mechanism. The cache busting is taking
-place upon compilation of the template (not rendering). So whenever you update an asset, you
-would need to recompile the templates that reference this asset (or clear the cache and let
-Twig rebuilding it dynamically).
+place upon compilation of the template (not upon rendering). So whenever you update an asset,
+you would need to recompile the templates that reference this asset (or clear the cache and 
+let Twig rebuild it automatically). The benefit is, that if you cache your compiled templates,
+then the server would process the performance intense cache busting only once (not on every
+request).
 
 ### Cache Busters
 
-There are three cache busting methods.
+By default there are three cache busting methods. But you can develop your own custom cache buster by implementing 
+the `\AdrianSuter\TwigCacheBusting\Interfaces\CacheBusterInterface`.
 
 - **Query Param Cache Buster**
   This cache buster would append a query param to the file path. So an asset with the path `image.jpg` gets transformed for example to `image.jpg?c=abcd`.
@@ -36,8 +39,9 @@ There are three cache busting methods.
 ### Hash Generators
 
 The **Query Param Cache Buster** and the **File Name Cache Buster** both use a hash generator
-to generate a hash for the given asset (in the examples above, the hash is `abcd`). The following hash
-generators are possible.
+to generate a hash for the given asset (in the examples above, the hash is `abcd`). By default 
+the following hash generators are possible. But you can develop your own custom hash generator 
+by implementing `\AdrianSuter\TwigCacheBusting\Interfaces\HashGeneratorInterface`.
 
 - **FileMD5HashGenerator**
   This hash generator calculates the MD5 hash of the file.
@@ -83,7 +87,7 @@ use AdrianSuter\TwigCacheBusting\HashGenerators\FileMD5HashGenerator;
 new QueryParamCacheBuster('/home/htdocs/public', new FileMD5HashGenerator())
 ```
 
-The third argument can be used to indicate that your project has a base path.
+The optional third argument of `QueryParamCacheBuster` can be used to indicate that your project has a base path.
 
 
 ### File Name Cache Buster
@@ -112,7 +116,7 @@ $twig->addExtension(new CacheBustingTwigExtension(
 ```
 
 Your web server needs to be configured such that the cache busting requests get 
-redirected. For Apache you need to set
+redirected. For Apache you would need to set
 ```apacheconfig
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -137,7 +141,7 @@ rewrite rule appropriately. For example:
 RewriteRule ^(.+)\.([a-f0-9]+)\.(js|css|jpg|png)$ $1.$3 [L]
 ```
 
-The third argument can be used to indicate that your project has a base path.
+The optional third argument of `FileNameCacheBuster` can be used to indicate that your project has a base path.
 
 
 ### Dictionary Cache Buster
@@ -175,6 +179,11 @@ new CacheBustingTokenParser(
     new FileNameCacheBuster('/home/htdocs/public'),
     'cb'
 )
+```
+
+Now you can use `cb` in your templates in order to apply cache busting.
+```twig
+<img src="{% cb 'assets/image.jpg' %}">
 ```
 
 
