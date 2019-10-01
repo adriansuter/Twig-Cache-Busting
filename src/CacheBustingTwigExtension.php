@@ -16,6 +16,8 @@ class CacheBustingTwigExtension extends AbstractExtension
     private $tokenParser;
 
     /**
+     * Create a Cache Busting Twig Extension.
+     *
      * @param CacheBusterInterface $cacheBuster
      * @param string|null $basePath
      * @param string|null $twigTag
