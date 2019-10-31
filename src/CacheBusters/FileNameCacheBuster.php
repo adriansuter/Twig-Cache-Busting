@@ -21,19 +21,12 @@ class FileNameCacheBuster implements CacheBusterInterface
     private $hashGenerator;
 
     /**
-     * @var string
-     */
-    private $basePath;
-
-    /**
-     * @param string                      $endPointDirectory
+     * @param string $endPointDirectory
      * @param HashGeneratorInterface|null $hashGenerator
-     * @param string                      $basePath
      */
     public function __construct(
         string $endPointDirectory,
-        ?HashGeneratorInterface $hashGenerator = null,
-        string $basePath = ''
+        ?HashGeneratorInterface $hashGenerator = null
     ) {
         if ($hashGenerator === null) {
             $hashGenerator = new FileModificationTimeHashGenerator();
@@ -41,7 +34,6 @@ class FileNameCacheBuster implements CacheBusterInterface
 
         $this->endPointDirectory = $endPointDirectory;
         $this->hashGenerator = $hashGenerator;
-        $this->basePath = $basePath;
     }
 
     /**
@@ -49,36 +41,29 @@ class FileNameCacheBuster implements CacheBusterInterface
      */
     public function bust(string $path): string
     {
-        $filePath = $this->endPointDirectory . '/' . $path;
-
-        if ($this->basePath === '') {
-            $v = '';
-        } elseif ($this->basePath[0] !== '/') {
-            $v = '/' . $this->basePath;
-        } else {
-            $v = $this->basePath;
-        }
+        $filePath = $this->endPointDirectory.'/'.$path;
 
         $pi = pathinfo($path);
         if (!array_key_exists('extension', $pi)) {
-            return $v . '/' . $path;
+            return $path;
         }
 
+        $v = '';
         if ($pi['dirname'] !== '.') {
-            $v .= '/' . $pi['dirname'];
+            $v .= $pi['dirname'];
         }
 
         if ($pi['filename'] === '') {
-            return $v . '/.' . $pi['extension'];
+            return ($v !== '' ? $v.'/.' : '.').$pi['extension'];
         }
 
-        $v .= '/' . $pi['filename'];
+        $v = ($v !== '' ? $v.'/' : '').$pi['filename'];
 
         $hash = $this->hashGenerator->generate($filePath);
         if ($hash !== null) {
-            $v .= '.' . $hash;
+            $v .= '.'.$hash;
         }
-        $v .= '.' . $pi['extension'];
+        $v .= '.'.$pi['extension'];
 
         return $v;
     }

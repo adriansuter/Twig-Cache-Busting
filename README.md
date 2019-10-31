@@ -18,7 +18,7 @@ $ composer require adriansuter/twig-cache-busting
 ## Description
 
 This add-on would extend Twig by a cache busting mechanism. The cache busting is taking
-place upon compilation of the template (not upon rendering). So whenever you update an asset,
+place upon **compilation** of the template (not upon rendering). So whenever you update an asset,
 you would need to recompile the templates that reference this asset (or clear the cache and 
 let Twig rebuild it automatically). The benefit is, that if you cache your compiled templates,
 then the server would process the performance intense cache busting only once (not on every
@@ -61,33 +61,31 @@ Assume you have a file `/home/htdocs/public/assets/image.jpg` and your template 
 <img src="{% cache_busting 'assets/image.jpg' %}">
 ```
 
-To use the **Query Param Cache Buster** you need to add the `CacheBustingTwigExtension` to Twig
-and pass the `QueryParamCacheBuster`.
+To use the **Query Param Cache Buster** you need to pass the `QueryParamCacheBuster` 
+to the static `create` method of the `CacheBustingTwigExtension`.
 
 ```php
 use AdrianSuter\TwigCacheBusting\CacheBusters\QueryParamCacheBuster;
-use AdrianSuter\TwigCacheBusting\CacheBustingTokenParser;
 use AdrianSuter\TwigCacheBusting\CacheBustingTwigExtension;
 
 //...
 
-$twig->addExtension(new CacheBustingTwigExtension(
-    new CacheBustingTokenParser(
+$twig->addExtension(
+    CacheBustingTwigExtension::create(
         new QueryParamCacheBuster('/home/htdocs/public')
-	)
-));
+    )
+);
 ```
 
-By default, the `QueryParamCacheBuster` uses the `FileModificationTimeHashGenerator`. But you can set another
-generator by passing a second argument to the constructor. For example:
+By default, the `QueryParamCacheBuster` uses the `FileModificationTimeHashGenerator`. But 
+you can set another generator by passing a second argument to the constructor. For 
+example:
 
  ```php
 use AdrianSuter\TwigCacheBusting\HashGenerators\FileMD5HashGenerator;
 
 new QueryParamCacheBuster('/home/htdocs/public', new FileMD5HashGenerator())
 ```
-
-The optional third argument of `QueryParamCacheBuster` can be used to indicate that your project has a base path.
 
 
 ### File Name Cache Buster
@@ -98,21 +96,20 @@ Assume you have a file `/home/htdocs/public/assets/image.jpg` and your template 
 <img src="{% cache_busting 'assets/image.jpg' %}">
 ```
 
-To use the **File Name Cache Buster** you need to add the `CacheBustingTwigExtension` to Twig
-and pass the `FileNameCacheBuster`.
+To use the **File Name Cache Buster** you need to pass the `FileNameCacheBuster` 
+to the static `create` method of the `CacheBustingTwigExtension`.
 
 ```php
 use AdrianSuter\TwigCacheBusting\CacheBusters\FileNameCacheBuster;
-use AdrianSuter\TwigCacheBusting\CacheBustingTokenParser;
 use AdrianSuter\TwigCacheBusting\CacheBustingTwigExtension;
 
 // ...
 
-$twig->addExtension(new CacheBustingTwigExtension(
-    new CacheBustingTokenParser(
+$twig->addExtension(
+    CacheBustingTwigExtension::create(
         new FileNameCacheBuster('/home/htdocs/public')
     )
-));
+);
 ```
 
 Your web server needs to be configured such that the cache busting requests get 
@@ -134,14 +131,12 @@ use AdrianSuter\TwigCacheBusting\HashGenerators\FileMD5HashGenerator;
 new FileNameCacheBuster('/home/htdocs/public', new FileMD5HashGenerator())
 ```
 
-If your hash generator returns hexadecimal hashes, the you would need to adapt the Apache 
+If your hash generator returns hexadecimal hashes, then you would need to adapt the Apache 
 rewrite rule appropriately. For example:
 
 ```apacheconfig
 RewriteRule ^(.+)\.([a-f0-9]+)\.(js|css|jpg|png)$ $1.$3 [L]
 ```
-
-The optional third argument of `FileNameCacheBuster` can be used to indicate that your project has a base path.
 
 
 ### Dictionary Cache Buster
@@ -151,34 +146,52 @@ basically a mapping between the original file path and the cache busting version
 
 ```php
 use AdrianSuter\TwigCacheBusting\CacheBusters\DictionaryCacheBuster;
-use AdrianSuter\TwigCacheBusting\CacheBustingTokenParser;
 use AdrianSuter\TwigCacheBusting\CacheBustingTwigExtension;
 use AdrianSuter\TwigCacheBusting\Dictionaries\ArrayDictionary;
 
 // ...
 
-$twig->addExtension(new CacheBustingTwigExtension(
-	new CacheBustingTokenParser(
+$twig->addExtension(
+    CacheBustingTwigExtension::create(
 		new DictionaryCacheBuster(
 			new ArrayDictionary([
 				'assets/image.jpg' => 'assets/cb-1c2d7c4s36d47d.jpg',
 			])
 		)
 	)
-));
+);
+```
+
+
+## Base Path
+
+If you want to prepend a base path to the generated paths, then simply pass that to the
+static `create` method of the `CacheBustingTwigExtension`. For example:
+
+```php
+$twig->addExtension(
+    CacheBustingTwigExtension::create(
+        new QueryParamCacheBuster('/home/htdocs/public'),
+        'base-path'
+    )
+);
 ```
 
 
 ## Custom Twig Tag
 
 If you want to change the twig tag `cache_busting` into something else, you can do that simply
-by setting the second argument of the constructor of `\AdrianSuter\TwigCacheBusting\CacheBustingTokenParser`.
+by setting the third argument of the static `create` method of the `CacheBustingTwigExtension`.
+For example:
 
 ```php
-new CacheBustingTokenParser(
-    new FileNameCacheBuster('/home/htdocs/public'),
-    'cb'
-)
+$twig->addExtension(
+    CacheBustingTwigExtension::create(
+        new QueryParamCacheBuster('/home/htdocs/public'),
+        null,
+        'cb'
+    )
+);
 ```
 
 Now you can use `cb` in your templates in order to apply cache busting.
