@@ -1,6 +1,6 @@
 # Twig-Cache-Busting
 
-[![Build Status](https://travis-ci.org/adriansuter/Twig-Cache-Busting.svg?branch=master)](https://travis-ci.org/adriansuter/Twig-Cache-Busting)
+[![Build Status](https://github.com/adriansuter/Twig-Cache-Busting/workflows/Tests/badge.svg?branch=master)](https://github.com/adriansuter/Twig-Cache-Busting/actions?query=branch:master)
 [![Coverage Status](https://coveralls.io/repos/github/adriansuter/Twig-Cache-Busting/badge.svg?branch=master)](https://coveralls.io/github/adriansuter/Twig-Cache-Busting?branch=master)
 [![Total Downloads](https://poser.pugx.org/adriansuter/twig-cache-busting/downloads)](https://packagist.org/packages/adriansuter/twig-cache-busting)
 [![License](https://poser.pugx.org/adriansuter/twig-cache-busting/license)](https://packagist.org/packages/adriansuter/twig-cache-busting)
@@ -19,14 +19,14 @@ $ composer require adriansuter/twig-cache-busting
 
 This add-on would extend Twig by a cache busting mechanism. The cache busting is taking
 place upon **compilation** of the template (not upon rendering). So whenever you update an asset,
-you would need to recompile the templates that reference this asset (or clear the cache and 
+you would need to recompile the templates that reference this asset (or clear the cache and
 let Twig rebuild it automatically). The benefit is, that if you cache your compiled templates,
 then the server would process the performance intense cache busting only once (not on every
 request).
 
 ### Cache Busters
 
-By default there are three cache busting methods. But you can develop your own custom cache buster by implementing 
+By default there are three cache busting methods. But you can develop your own custom cache buster by implementing
 the `\AdrianSuter\TwigCacheBusting\Interfaces\CacheBusterInterface`.
 
 - **Query Param Cache Buster**
@@ -39,8 +39,8 @@ the `\AdrianSuter\TwigCacheBusting\Interfaces\CacheBusterInterface`.
 ### Hash Generators
 
 The **Query Param Cache Buster** and the **File Name Cache Buster** both use a hash generator
-to generate a hash for the given asset (in the examples above, the hash is `abcd`). By default 
-the following hash generators are possible. But you can develop your own custom hash generator 
+to generate a hash for the given asset (in the examples above, the hash is `abcd`). By default
+the following hash generators are possible. But you can develop your own custom hash generator
 by implementing `\AdrianSuter\TwigCacheBusting\Interfaces\HashGeneratorInterface`.
 
 - **FileMD5HashGenerator**
@@ -61,7 +61,7 @@ Assume you have a file `/home/htdocs/public/assets/image.jpg` and your template 
 <img src="{% cache_busting 'assets/image.jpg' %}">
 ```
 
-To use the **Query Param Cache Buster** you need to pass the `QueryParamCacheBuster` 
+To use the **Query Param Cache Buster** you need to pass the `QueryParamCacheBuster`
 to the static `create` method of the `CacheBustingTwigExtension`.
 
 ```php
@@ -77,8 +77,8 @@ $twig->addExtension(
 );
 ```
 
-By default, the `QueryParamCacheBuster` uses the `FileModificationTimeHashGenerator`. But 
-you can set another generator by passing a second argument to the constructor. For 
+By default, the `QueryParamCacheBuster` uses the `FileModificationTimeHashGenerator`. But
+you can set another generator by passing a second argument to the constructor. For
 example:
 
  ```php
@@ -96,7 +96,7 @@ Assume you have a file `/home/htdocs/public/assets/image.jpg` and your template 
 <img src="{% cache_busting 'assets/image.jpg' %}">
 ```
 
-To use the **File Name Cache Buster** you need to pass the `FileNameCacheBuster` 
+To use the **File Name Cache Buster** you need to pass the `FileNameCacheBuster`
 to the static `create` method of the `CacheBustingTwigExtension`.
 
 ```php
@@ -112,7 +112,7 @@ $twig->addExtension(
 );
 ```
 
-Your web server needs to be configured such that the cache busting requests get 
+Your web server needs to be configured such that the cache busting requests get
 redirected. For Apache you would need to set
 ```apacheconfig
 RewriteEngine On
@@ -131,7 +131,7 @@ use AdrianSuter\TwigCacheBusting\HashGenerators\FileMD5HashGenerator;
 new FileNameCacheBuster('/home/htdocs/public', new FileMD5HashGenerator())
 ```
 
-If your hash generator returns hexadecimal hashes, then you would need to adapt the Apache 
+If your hash generator returns hexadecimal hashes, then you would need to adapt the Apache
 rewrite rule appropriately. For example:
 
 ```apacheconfig
