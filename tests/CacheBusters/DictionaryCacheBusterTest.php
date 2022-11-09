@@ -7,10 +7,13 @@ namespace AdrianSuter\TwigCacheBusting\Tests\CacheBusters;
 use AdrianSuter\TwigCacheBusting\CacheBusters\DictionaryCacheBuster;
 use AdrianSuter\TwigCacheBusting\Interfaces\DictionaryInterface;
 use AdrianSuter\TwigCacheBusting\Tests\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class DictionaryCacheBusterTest extends TestCase
 {
-    public function testDefaults()
+    use ProphecyTrait;
+
+    public function testDefaults(): void
     {
         $dictionaryProphecy = $this->prophesize(DictionaryInterface::class);
         $dictionaryProphecy->lookup('image.jpg')->willReturn('image-1234.jpg');

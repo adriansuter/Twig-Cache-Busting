@@ -8,10 +8,13 @@ use AdrianSuter\TwigCacheBusting\CacheBusters\QueryParamCacheBuster;
 use AdrianSuter\TwigCacheBusting\Interfaces\HashGeneratorInterface;
 use AdrianSuter\TwigCacheBusting\Tests\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class QueryParamCacheBusterTest extends TestCase
 {
-    public function testDefaults()
+    use ProphecyTrait;
+
+    public function testDefaults(): void
     {
         $queryParamCacheBuster = new QueryParamCacheBuster($this->publicPath());
 
@@ -38,7 +41,7 @@ class QueryParamCacheBusterTest extends TestCase
         unset($GLOBALS['filemtime_return']);
     }
 
-    public function testBustWithCustomHashGenerator()
+    public function testBustWithCustomHashGenerator(): void
     {
         $hashGeneratorProphecy = $this->prophesize(HashGeneratorInterface::class);
         $hashGeneratorProphecy->generate(Argument::any())->willReturn('1234');
@@ -50,7 +53,7 @@ class QueryParamCacheBusterTest extends TestCase
         $this->assertEquals('image.jpg?h=1234', $queryParamCacheBuster->bust('image.jpg'));
     }
 
-    public function testBustWithCustomHashGeneratorGeneratingNull()
+    public function testBustWithCustomHashGeneratorGeneratingNull(): void
     {
         $hashGeneratorProphecy = $this->prophesize(HashGeneratorInterface::class);
         $hashGeneratorProphecy->generate(Argument::any())->willReturn(null);
