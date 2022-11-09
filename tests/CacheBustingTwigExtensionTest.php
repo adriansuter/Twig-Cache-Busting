@@ -12,7 +12,7 @@ use ReflectionProperty;
 
 class CacheBustingTwigExtensionTest extends TestCase
 {
-    public function testGetTokenParsers()
+    public function testGetTokenParsers(): void
     {
         $tokenParser = $this->createMock(CacheBustingTokenParser::class);
         $cacheBustingTwigExtension = new CacheBustingTwigExtension($tokenParser);
@@ -41,8 +41,12 @@ class CacheBustingTwigExtensionTest extends TestCase
      * @param string $expectedTwigTag
      * @throws ReflectionException
      */
-    public function testCreate(?string $basePath, ?string $twigTag, string $expectedBasePath, string $expectedTwigTag)
-    {
+    public function testCreate(
+        ?string $basePath,
+        ?string $twigTag,
+        string $expectedBasePath,
+        string $expectedTwigTag
+    ): void {
         $cacheBuster = $this->createMock(CacheBusterInterface::class);
 
         if ($basePath === null && $twigTag === null) {

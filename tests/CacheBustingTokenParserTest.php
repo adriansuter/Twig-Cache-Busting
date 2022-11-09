@@ -6,12 +6,15 @@ namespace AdrianSuter\TwigCacheBusting\Tests;
 
 use AdrianSuter\TwigCacheBusting\CacheBustingTokenParser;
 use AdrianSuter\TwigCacheBusting\Interfaces\CacheBusterInterface;
+use Prophecy\PhpUnit\ProphecyTrait;
 use ReflectionException;
 use ReflectionMethod;
 
 class CacheBustingTokenParserTest extends TestCase
 {
-    public function testGetTagDefault()
+    use ProphecyTrait;
+
+    public function testGetTagDefault(): void
     {
         $cacheBuster = $this->createMock(CacheBusterInterface::class);
         $cacheBustingTokenParser = new CacheBustingTokenParser($cacheBuster);
@@ -19,7 +22,7 @@ class CacheBustingTokenParserTest extends TestCase
         $this->assertEquals('cache_busting', $cacheBustingTokenParser->getTag());
     }
 
-    public function testGetTagCustomized()
+    public function testGetTagCustomized(): void
     {
         $cacheBuster = $this->createMock(CacheBusterInterface::class);
         $cacheBustingTokenParser = new CacheBustingTokenParser($cacheBuster, null, 'cb');
@@ -55,7 +58,7 @@ class CacheBustingTokenParserTest extends TestCase
      *
      * @throws ReflectionException
      */
-    public function testBasePath(string $basePath, string $assetPath, string $assetBustPath, string $expected)
+    public function testBasePath(string $basePath, string $assetPath, string $assetBustPath, string $expected): void
     {
         $cacheBusterProphecy = $this->prophesize(CacheBusterInterface::class);
         $cacheBusterProphecy->bust($assetPath)->willReturn($assetBustPath);

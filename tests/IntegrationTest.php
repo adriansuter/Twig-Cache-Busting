@@ -37,7 +37,7 @@ class IntegrationTest extends TestCase
     {
         $templates = [];
         foreach ($this->getTestFilePaths() as $key => $testFilePath) {
-            $templates[$uid.$key] = '{% '.$twigTag.' "'.$testFilePath.'" %}';
+            $templates[$uid . $key] = '{% ' . $twigTag . ' "' . $testFilePath . '" %}';
         }
 
         return new ArrayLoader($templates);
@@ -232,8 +232,8 @@ class IntegrationTest extends TestCase
         CacheBusterInterface $cacheBuster,
         string $twigTag,
         array $expectedValues
-    ) {
-        $uid = self::class.'::'.__FUNCTION__.'::'.$name;
+    ): void {
+        $uid = self::class . '::' . __FUNCTION__ . '::' . $name;
 
         $twig = $this->buildTwig(
             $uid,
@@ -248,7 +248,7 @@ class IntegrationTest extends TestCase
         foreach ($expectedValues as $key => $expectedValue) {
             $this->assertEquals(
                 $expectedValue,
-                $twig->render($uid.$key)
+                $twig->render($uid . $key)
             );
         }
 
@@ -269,8 +269,8 @@ class IntegrationTest extends TestCase
         CacheBusterInterface $cacheBuster,
         string $twigTag,
         array $expectedValues
-    ) {
-        $uid = self::class.'::'.__FUNCTION__.'::'.$name;
+    ): void {
+        $uid = self::class . '::' . __FUNCTION__ . '::' . $name;
 
         $twig = $this->buildTwig(
             $uid,
@@ -284,8 +284,8 @@ class IntegrationTest extends TestCase
 
         foreach ($expectedValues as $key => $expectedValue) {
             $this->assertEquals(
-                '/base-path'.$expectedValue,
-                $twig->render($uid.$key)
+                '/base-path' . $expectedValue,
+                $twig->render($uid . $key)
             );
         }
 

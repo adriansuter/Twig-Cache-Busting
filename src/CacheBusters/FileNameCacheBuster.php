@@ -41,7 +41,7 @@ class FileNameCacheBuster implements CacheBusterInterface
      */
     public function bust(string $path): string
     {
-        $filePath = $this->endPointDirectory.'/'.$path;
+        $filePath = $this->endPointDirectory . '/' . $path;
 
         $pi = pathinfo($path);
         if (!array_key_exists('extension', $pi)) {
@@ -49,21 +49,21 @@ class FileNameCacheBuster implements CacheBusterInterface
         }
 
         $v = '';
-        if ($pi['dirname'] !== '.') {
+        if (array_key_exists('dirname', $pi) && $pi['dirname'] !== '.') {
             $v .= $pi['dirname'];
         }
 
         if ($pi['filename'] === '') {
-            return ($v !== '' ? $v.'/.' : '.').$pi['extension'];
+            return ($v !== '' ? $v . '/.' : '.') . $pi['extension'];
         }
 
-        $v = ($v !== '' ? $v.'/' : '').$pi['filename'];
+        $v = ($v !== '' ? $v . '/' : '') . $pi['filename'];
 
         $hash = $this->hashGenerator->generate($filePath);
         if ($hash !== null) {
-            $v .= '.'.$hash;
+            $v .= '.' . $hash;
         }
-        $v .= '.'.$pi['extension'];
+        $v .= '.' . $pi['extension'];
 
         return $v;
     }
