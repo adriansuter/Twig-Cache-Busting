@@ -12,7 +12,7 @@ class DictionaryCacheBuster implements CacheBusterInterface
     /**
      * @var DictionaryInterface
      */
-    private $dictionary;
+    protected DictionaryInterface $dictionary;
 
     /**
      * @param DictionaryInterface $dictionary

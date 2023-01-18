@@ -13,7 +13,7 @@ class CacheBustingTwigExtension extends AbstractExtension
     /**
      * @var CacheBustingTokenParser
      */
-    private $tokenParser;
+    protected CacheBustingTokenParser $tokenParser;
 
     /**
      * Create a Cache Busting Twig Extension.
@@ -43,9 +43,9 @@ class CacheBustingTwigExtension extends AbstractExtension
     }
 
     /**
-     * @return array|TokenParserInterface[]
+     * @return TokenParserInterface[]
      */
-    public function getTokenParsers()
+    public function getTokenParsers(): array
     {
         return [
             $this->tokenParser,

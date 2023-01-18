@@ -13,12 +13,12 @@ class FileNameCacheBuster implements CacheBusterInterface
     /**
      * @var string
      */
-    private $endPointDirectory;
+    protected string $endPointDirectory;
 
     /**
      * @var HashGeneratorInterface
      */
-    private $hashGenerator;
+    protected HashGeneratorInterface $hashGenerator;
 
     /**
      * @param string $endPointDirectory
