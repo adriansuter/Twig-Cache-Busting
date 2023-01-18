@@ -11,7 +11,7 @@ class ArrayDictionary implements DictionaryInterface
     /**
      * @var array<string>
      */
-    private $data;
+    protected array $data;
 
     /**
      * @param array<string> $data
@@ -20,7 +20,6 @@ class ArrayDictionary implements DictionaryInterface
     {
         $this->data = $data;
     }
-
 
     /**
      * @inheritDoc

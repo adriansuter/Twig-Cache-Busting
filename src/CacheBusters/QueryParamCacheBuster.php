@@ -13,12 +13,12 @@ class QueryParamCacheBuster implements CacheBusterInterface
     /**
      * @var string
      */
-    private $endPointDirectory;
+    protected string $endPointDirectory;
 
     /**
      * @var HashGeneratorInterface
      */
-    private $hashGenerator;
+    protected HashGeneratorInterface $hashGenerator;
 
     /**
      * @param string $endPointDirectory
@@ -41,13 +41,13 @@ class QueryParamCacheBuster implements CacheBusterInterface
      */
     public function bust(string $path): string
     {
-        $filePath = $this->endPointDirectory.'/'.$path;
+        $filePath = $this->endPointDirectory . '/' . $path;
 
         $bustPath = $path;
 
         $hash = $this->hashGenerator->generate($filePath);
         if ($hash !== null) {
-            $bustPath .= '?h='.urlencode($hash);
+            $bustPath .= '?h=' . urlencode($hash);
         }
 
         return $bustPath;

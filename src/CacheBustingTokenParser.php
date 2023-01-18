@@ -15,17 +15,17 @@ class CacheBustingTokenParser extends AbstractTokenParser
     /**
      * @var CacheBusterInterface
      */
-    private $cacheBuster;
+    protected CacheBusterInterface $cacheBuster;
 
     /**
      * @var string
      */
-    private $basePath;
+    protected string $basePath;
 
     /**
      * @var string
      */
-    private $twigTag;
+    protected string $twigTag;
 
     /**
      * @param CacheBusterInterface $cacheBuster
@@ -64,12 +64,12 @@ class CacheBustingTokenParser extends AbstractTokenParser
         if ($this->basePath === '') {
             $basePath = '';
         } elseif ($this->basePath[0] !== '/') {
-            $basePath = '/'.$this->basePath;
+            $basePath = '/' . $this->basePath;
         } else {
             $basePath = $this->basePath;
         }
 
-        return $basePath.'/'.$this->cacheBuster->bust($path);
+        return $basePath . '/' . $this->cacheBuster->bust($path);
     }
 
     /**
