@@ -26,7 +26,7 @@ request).
 
 ### Cache Busters
 
-By default there are three cache busting methods. But you can develop your own custom cache buster by implementing
+By default, there are three cache busting methods. But you can develop your own custom cache buster by implementing
 the `\AdrianSuter\TwigCacheBusting\Interfaces\CacheBusterInterface`.
 
 - **Query Param Cache Buster**
