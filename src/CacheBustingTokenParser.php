@@ -36,8 +36,7 @@ class CacheBustingTokenParser extends AbstractTokenParser
         CacheBusterInterface $cacheBuster,
         ?string              $basePath = null,
         ?string              $twigTag = null
-    )
-    {
+    ) {
         $this->cacheBuster = $cacheBuster;
         $this->basePath = ($basePath === null ? '' : $basePath);
         $this->twigTag = ($twigTag === null ? 'cache_busting' : $twigTag);
