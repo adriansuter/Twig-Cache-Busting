@@ -34,9 +34,10 @@ class CacheBustingTokenParser extends AbstractTokenParser
      */
     public function __construct(
         CacheBusterInterface $cacheBuster,
-        ?string $basePath = null,
-        ?string $twigTag = null
-    ) {
+        ?string              $basePath = null,
+        ?string              $twigTag = null
+    )
+    {
         $this->cacheBuster = $cacheBuster;
         $this->basePath = ($basePath === null ? '' : $basePath);
         $this->twigTag = ($twigTag === null ? 'cache_busting' : $twigTag);
@@ -49,6 +50,7 @@ class CacheBustingTokenParser extends AbstractTokenParser
     {
         $stream = $this->parser->getStream();
 
+        /** @var string $path */
         $path = $stream->expect(Token::STRING_TYPE)->getValue();
         $stream->expect(Token::BLOCK_END_TYPE);
 
