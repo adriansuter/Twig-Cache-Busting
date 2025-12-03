@@ -11,18 +11,7 @@ use Twig\TokenParser\TokenParserInterface;
 class CacheBustingTwigExtension extends AbstractExtension
 {
     /**
-     * @var CacheBustingTokenParser
-     */
-    protected CacheBustingTokenParser $tokenParser;
-
-    /**
      * Create a Cache Busting Twig Extension.
-     *
-     * @param CacheBusterInterface $cacheBuster
-     * @param string|null $basePath
-     * @param string|null $twigTag
-     *
-     * @return CacheBustingTwigExtension
      */
     public static function create(
         CacheBusterInterface $cacheBuster,
@@ -34,12 +23,8 @@ class CacheBustingTwigExtension extends AbstractExtension
         );
     }
 
-    /**
-     * @param CacheBustingTokenParser $tokenParser
-     */
-    public function __construct(CacheBustingTokenParser $tokenParser)
+    public function __construct(protected CacheBustingTokenParser $tokenParser)
     {
-        $this->tokenParser = $tokenParser;
     }
 
     /**

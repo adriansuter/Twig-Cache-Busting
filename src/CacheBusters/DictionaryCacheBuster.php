@@ -9,17 +9,8 @@ use AdrianSuter\TwigCacheBusting\Interfaces\DictionaryInterface;
 
 class DictionaryCacheBuster implements CacheBusterInterface
 {
-    /**
-     * @var DictionaryInterface
-     */
-    protected DictionaryInterface $dictionary;
-
-    /**
-     * @param DictionaryInterface $dictionary
-     */
-    public function __construct(DictionaryInterface $dictionary)
+    public function __construct(protected DictionaryInterface $dictionary)
     {
-        $this->dictionary = $dictionary;
     }
 
     /**
