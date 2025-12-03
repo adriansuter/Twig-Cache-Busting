@@ -6,7 +6,9 @@ namespace AdrianSuter\TwigCacheBusting\Tests\Dictionaries;
 
 use AdrianSuter\TwigCacheBusting\Dictionaries\ArrayDictionary;
 use AdrianSuter\TwigCacheBusting\Tests\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(ArrayDictionary::class)]
 class ArrayDictionaryTest extends TestCase
 {
     public function testDefault(): void

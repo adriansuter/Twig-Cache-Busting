@@ -8,6 +8,11 @@ class TestCase extends PHPUnitTestCase
 {
     protected function publicPath(string $path = ''): string
     {
+        return self::staticPublicPath($path);
+    }
+
+    protected static function staticPublicPath(string $path = ''): string
+    {
         if ($path !== '') {
             $path = '/' . $path;
         }

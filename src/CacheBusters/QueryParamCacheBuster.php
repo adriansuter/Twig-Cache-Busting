@@ -10,30 +10,13 @@ use AdrianSuter\TwigCacheBusting\Interfaces\HashGeneratorInterface;
 
 class QueryParamCacheBuster implements CacheBusterInterface
 {
-    /**
-     * @var string
-     */
-    protected string $endPointDirectory;
-
-    /**
-     * @var HashGeneratorInterface
-     */
     protected HashGeneratorInterface $hashGenerator;
 
-    /**
-     * @param string $endPointDirectory
-     * @param HashGeneratorInterface|null $hashGenerator
-     */
     public function __construct(
-        string $endPointDirectory,
+        protected string $endPointDirectory,
         ?HashGeneratorInterface $hashGenerator = null
     ) {
-        if ($hashGenerator === null) {
-            $hashGenerator = new FileModificationTimeHashGenerator();
-        }
-
-        $this->endPointDirectory = $endPointDirectory;
-        $this->hashGenerator = $hashGenerator;
+        $this->hashGenerator = $hashGenerator ?? new FileModificationTimeHashGenerator();
     }
 
     /**

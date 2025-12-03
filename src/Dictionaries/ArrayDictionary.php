@@ -9,16 +9,10 @@ use AdrianSuter\TwigCacheBusting\Interfaces\DictionaryInterface;
 class ArrayDictionary implements DictionaryInterface
 {
     /**
-     * @var array<string>
-     */
-    protected array $data;
-
-    /**
      * @param array<string> $data
      */
-    public function __construct(array $data = [])
+    public function __construct(protected array $data = [])
     {
-        $this->data = $data;
     }
 
     /**

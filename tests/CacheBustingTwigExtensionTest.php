@@ -7,9 +7,13 @@ namespace AdrianSuter\TwigCacheBusting\Tests;
 use AdrianSuter\TwigCacheBusting\CacheBustingTokenParser;
 use AdrianSuter\TwigCacheBusting\CacheBustingTwigExtension;
 use AdrianSuter\TwigCacheBusting\Interfaces\CacheBusterInterface;
-use ReflectionException;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\UsesClass;
 use ReflectionProperty;
 
+#[CoversClass(CacheBustingTwigExtension::class)]
+#[UsesClass(CacheBustingTwigExtension::class)]
 class CacheBustingTwigExtensionTest extends TestCase
 {
     public function testGetTokenParsers(): void
@@ -23,7 +27,7 @@ class CacheBustingTwigExtensionTest extends TestCase
         );
     }
 
-    public function createDataProvider(): array
+    public static function createDataProvider(): array
     {
         return [
             [null, null, '', 'cache_busting'],
@@ -31,16 +35,8 @@ class CacheBustingTwigExtensionTest extends TestCase
             ['/base-path', 'cb', '/base-path', 'cb'],
         ];
     }
-
-    /**
-     * @dataProvider createDataProvider
-     *
-     * @param string|null $basePath
-     * @param string|null $twigTag
-     * @param string $expectedBasePath
-     * @param string $expectedTwigTag
-     * @throws ReflectionException
-     */
+    
+    #[DataProvider('createDataProvider')]
     public function testCreate(
         ?string $basePath,
         ?string $twigTag,

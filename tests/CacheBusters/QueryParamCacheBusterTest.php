@@ -7,9 +7,11 @@ namespace AdrianSuter\TwigCacheBusting\Tests\CacheBusters;
 use AdrianSuter\TwigCacheBusting\CacheBusters\QueryParamCacheBuster;
 use AdrianSuter\TwigCacheBusting\Interfaces\HashGeneratorInterface;
 use AdrianSuter\TwigCacheBusting\Tests\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 
+#[CoversClass(QueryParamCacheBuster::class)]
 class QueryParamCacheBusterTest extends TestCase
 {
     use ProphecyTrait;

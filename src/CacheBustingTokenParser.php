@@ -12,38 +12,22 @@ use Twig\TokenParser\AbstractTokenParser;
 
 class CacheBustingTokenParser extends AbstractTokenParser
 {
-    /**
-     * @var CacheBusterInterface
-     */
-    protected CacheBusterInterface $cacheBuster;
-
-    /**
-     * @var string
-     */
     protected string $basePath;
 
-    /**
-     * @var string
-     */
     protected string $twigTag;
 
-    /**
-     * @param CacheBusterInterface $cacheBuster
-     * @param string|null $basePath
-     * @param string|null $twigTag
-     */
     public function __construct(
-        CacheBusterInterface $cacheBuster,
-        ?string              $basePath = null,
-        ?string              $twigTag = null
+        protected CacheBusterInterface $cacheBuster,
+        ?string $basePath = null,
+        ?string $twigTag = null
     ) {
-        $this->cacheBuster = $cacheBuster;
-        $this->basePath = ($basePath === null ? '' : $basePath);
-        $this->twigTag = ($twigTag === null ? 'cache_busting' : $twigTag);
+        $this->basePath = $basePath ?? '';
+        $this->twigTag = $twigTag ?? 'cache_busting';
     }
 
     /**
      * @inheritDoc
+     * @codeCoverageIgnore
      */
     public function parse(Token $token): Node
     {

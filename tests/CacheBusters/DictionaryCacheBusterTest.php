@@ -7,9 +7,11 @@ namespace AdrianSuter\TwigCacheBusting\Tests\CacheBusters;
 use AdrianSuter\TwigCacheBusting\CacheBusters\DictionaryCacheBuster;
 use AdrianSuter\TwigCacheBusting\Interfaces\DictionaryInterface;
 use AdrianSuter\TwigCacheBusting\Tests\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Prophecy\PhpUnit\ProphecyTrait;
 
-class DictionaryCacheBusterTest extends TestCase
+#[CoversClass(DictionaryCacheBuster::class)]
+final class DictionaryCacheBusterTest extends TestCase
 {
     use ProphecyTrait;
 

@@ -6,10 +6,12 @@ namespace AdrianSuter\TwigCacheBusting\Tests;
 
 use AdrianSuter\TwigCacheBusting\CacheBustingTokenParser;
 use AdrianSuter\TwigCacheBusting\Interfaces\CacheBusterInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Prophecy\PhpUnit\ProphecyTrait;
-use ReflectionException;
 use ReflectionMethod;
 
+#[CoversClass(CacheBustingTokenParser::class)]
 class CacheBustingTokenParserTest extends TestCase
 {
     use ProphecyTrait;
@@ -30,16 +32,16 @@ class CacheBustingTokenParserTest extends TestCase
         $this->assertEquals('cb', $cacheBustingTokenParser->getTag());
     }
 
-    public function basePathDataProvider(): array
+    public static function basePathDataProvider(): array
     {
         return [
             // No base path.
             ['', 'image.jpg', 'image.abcd.jpg', '/image.abcd.jpg'],
-            // No base path but asset in sub directory.
+            // No base path but asset in subdirectory.
             ['', 'dir/image.jpg', 'dir/image.abcd.jpg', '/dir/image.abcd.jpg'],
             // Base path which is a slash only (would result in a double slash).
             ['/', 'image.jpg', 'image.abcd.jpg', '//image.abcd.jpg'],
-            // Base path which is a slash only (would result in a double slash) but asset in sub directory.
+            // Base path which is a slash only (would result in a double slash) but asset in subdirectory.
             ['/', 'dir/image.jpg', 'dir/image.abcd.jpg', '//dir/image.abcd.jpg'],
             // Base path without leading slash.
             ['base-path', 'image.jpg', 'image.abcd.jpg', '/base-path/image.abcd.jpg'],
@@ -48,16 +50,7 @@ class CacheBustingTokenParserTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider basePathDataProvider
-     *
-     * @param string $basePath
-     * @param string $assetPath
-     * @param string $assetBustPath
-     * @param string $expected
-     *
-     * @throws ReflectionException
-     */
+    #[DataProvider('basePathDataProvider')]
     public function testBasePath(string $basePath, string $assetPath, string $assetBustPath, string $expected): void
     {
         $cacheBusterProphecy = $this->prophesize(CacheBusterInterface::class);

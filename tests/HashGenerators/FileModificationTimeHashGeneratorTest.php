@@ -6,7 +6,9 @@ namespace AdrianSuter\TwigCacheBusting\Tests\HashGenerators;
 
 use AdrianSuter\TwigCacheBusting\HashGenerators\FileModificationTimeHashGenerator;
 use AdrianSuter\TwigCacheBusting\Tests\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(FileModificationTimeHashGenerator::class)]
 class FileModificationTimeHashGeneratorTest extends TestCase
 {
     public function testDefault(): void

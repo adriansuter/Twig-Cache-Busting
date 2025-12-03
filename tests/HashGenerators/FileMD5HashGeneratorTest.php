@@ -6,7 +6,9 @@ namespace AdrianSuter\TwigCacheBusting\Tests\HashGenerators;
 
 use AdrianSuter\TwigCacheBusting\HashGenerators\FileMD5HashGenerator;
 use AdrianSuter\TwigCacheBusting\Tests\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(FileMD5HashGenerator::class)]
 class FileMD5HashGeneratorTest extends TestCase
 {
     public function testDefault(): void
