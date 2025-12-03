@@ -7,9 +7,11 @@ namespace AdrianSuter\TwigCacheBusting\Tests\CacheBusters;
 use AdrianSuter\TwigCacheBusting\CacheBusters\FileNameCacheBuster;
 use AdrianSuter\TwigCacheBusting\Interfaces\HashGeneratorInterface;
 use AdrianSuter\TwigCacheBusting\Tests\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 
+#[CoversClass(FileNameCacheBuster::class)]
 class FileNameCacheBusterTest extends TestCase
 {
     use ProphecyTrait;

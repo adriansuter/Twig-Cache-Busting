@@ -11,9 +11,12 @@ use AdrianSuter\TwigCacheBusting\HashGenerators\FileMD5HashGenerator;
 use AdrianSuter\TwigCacheBusting\HashGenerators\FileModificationTimeHashGenerator;
 use AdrianSuter\TwigCacheBusting\HashGenerators\FileSHA1HashGenerator;
 use AdrianSuter\TwigCacheBusting\Interfaces\CacheBusterInterface;
+use PHPUnit\Framework\Attributes\CoversNothing;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 
+#[CoversNothing]
 class IntegrationTest extends TestCase
 {
     const KEY_ROOT_FILE = 'rootFile';
@@ -60,15 +63,17 @@ class IntegrationTest extends TestCase
         return $twig;
     }
 
-    public function allDataProvider(): array
+    public static function allDataProvider(): array
     {
+        $publicPath = self::staticPublicPath();
+
         return [
             ///
             // File Name Cache Buster
             ///
             [
                 'File Name Cache Buster - Default',
-                new FileNameCacheBuster($this->publicPath()),
+                new FileNameCacheBuster($publicPath),
                 'cache_busting',
                 [
                     self::KEY_ROOT_FILE => '/bar.1234.js',
@@ -81,7 +86,7 @@ class IntegrationTest extends TestCase
             [
                 'File Name Cache Buster - File Modification Time Hash',
                 new FileNameCacheBuster(
-                    $this->publicPath(),
+                    $publicPath,
                     new FileModificationTimeHashGenerator()
                 ),
                 'cache_busting',
@@ -96,7 +101,7 @@ class IntegrationTest extends TestCase
             [
                 'File Name Cache Buster - File MD5 Hash',
                 new FileNameCacheBuster(
-                    $this->publicPath(),
+                    $publicPath,
                     new FileMD5HashGenerator()
                 )
                 ,
@@ -112,7 +117,7 @@ class IntegrationTest extends TestCase
             [
                 'File Name Cache Buster - File SHA1 Hash',
                 new FileNameCacheBuster(
-                    $this->publicPath(),
+                    $publicPath,
                     new FileSHA1HashGenerator()
                 )
                 ,
@@ -131,7 +136,7 @@ class IntegrationTest extends TestCase
             [
                 'Query Param Cache Buster - Default',
                 new QueryParamCacheBuster(
-                    $this->publicPath()
+                    $publicPath
                 )
                 ,
                 'cache_busting',
@@ -146,7 +151,7 @@ class IntegrationTest extends TestCase
             [
                 'Query Param Cache Buster - File Modification Time Hash',
                 new QueryParamCacheBuster(
-                    $this->publicPath(),
+                    $publicPath,
                     new FileModificationTimeHashGenerator()
                 )
                 ,
@@ -162,7 +167,7 @@ class IntegrationTest extends TestCase
             [
                 'Query Param Cache Buster - File MD5 Hash',
                 new QueryParamCacheBuster(
-                    $this->publicPath(),
+                    $publicPath,
                     new FileMD5HashGenerator()
                 )
                 ,
@@ -178,7 +183,7 @@ class IntegrationTest extends TestCase
             [
                 'Query Param Cache Buster - File SHA1 Hash',
                 new QueryParamCacheBuster(
-                    $this->publicPath(),
+                    $publicPath,
                     new FileSHA1HashGenerator()
                 )
                 ,
@@ -220,13 +225,10 @@ class IntegrationTest extends TestCase
 
     /**
      * @noinspection PhpDocMissingThrowsInspection
-     * @dataProvider allDataProvider
      *
-     * @param string $name
-     * @param CacheBusterInterface $cacheBuster
-     * @param string $twigTag
      * @param string[] $expectedValues
      */
+    #[DataProvider('allDataProvider')]
     public function testAll(
         string $name,
         CacheBusterInterface $cacheBuster,
@@ -257,13 +259,8 @@ class IntegrationTest extends TestCase
 
     /**
      * @noinspection PhpDocMissingThrowsInspection
-     * @dataProvider allDataProvider
-     *
-     * @param string $name
-     * @param CacheBusterInterface $cacheBuster
-     * @param string $twigTag
-     * @param array $expectedValues
      */
+    #[DataProvider('allDataProvider')]
     public function testAllWithBasePath(
         string $name,
         CacheBusterInterface $cacheBuster,
